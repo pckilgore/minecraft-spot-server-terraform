@@ -1,2 +1,4 @@
 .terraform
 .envrc
+pkg-lambda/*
+!.gitkeep
