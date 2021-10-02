@@ -1,9 +1,5 @@
-variable "BUCKET" {
-  type = "string"
-}
-
 resource "aws_s3_bucket" "persistent-storage" {
-  bucket = "${var.BUCKET}"
+  bucket = "brookline-bay-mcserver-storage"
 
   versioning {
     enabled = true

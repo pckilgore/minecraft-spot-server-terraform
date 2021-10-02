@@ -1,5 +1,5 @@
 variable "PUBLIC_SSH_KEY" {
-  type = "string"
+  type = string
 }
 
 locals {
@@ -26,7 +26,7 @@ locals {
 
 resource "aws_key_pair" "server-key" {
   key_name = "MinecraftServerKey"
-  public_key = "${var.PUBLIC_SSH_KEY}"
+  public_key = var.PUBLIC_SSH_KEY
 }
 
 
@@ -37,21 +37,21 @@ resource "aws_launch_template" "server-template" {
   instance_type = "c5d.large"
 
   iam_instance_profile {
-    name = "${aws_iam_instance_profile.minecraft-server.name}"
+    name = aws_iam_instance_profile.minecraft-server.name
   }
 
-  key_name = "${aws_key_pair.server-key.key_name}"
+  key_name = aws_key_pair.server-key.key_name
 
   network_interfaces {
     description = "Public internet interface."
     associate_public_ip_address = true
     delete_on_termination = true
-    security_groups = ["${aws_security_group.mc-server-sg.id}"]
-    subnet_id = "${aws_subnet.main.id}"
+    security_groups = [aws_security_group.mc-server-sg.id]
+    subnet_id = aws_subnet.main.id
   }
 
-  user_data = "${base64encode(local.startup_script)}"
-  depends_on = ["aws_internet_gateway.main"]
+  user_data = base64encode(local.startup_script)
+  depends_on = [aws_internet_gateway.main]
   tags = {
     Project = "minecraft"
   }

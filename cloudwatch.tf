@@ -8,8 +8,8 @@ resource "aws_cloudwatch_event_rule" "active-hours-heartbeat" {
 }
 
 resource "aws_cloudwatch_event_target" "active-hours-heartbeat" {
-  rule = "${aws_cloudwatch_event_rule.active-hours-heartbeat.name}"
-  arn  = "${aws_sns_topic.server-notification.arn}"
+  rule = aws_cloudwatch_event_rule.active-hours-heartbeat.name
+  arn  = aws_sns_topic.server-notification.arn
 }
 
 

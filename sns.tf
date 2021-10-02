@@ -4,12 +4,12 @@ resource "aws_sns_topic" "server-notification" {
 }
 
 resource "aws_sns_topic_policy" "server-notification" {
-  arn    = "${aws_sns_topic.server-notification.arn}"
-  policy = "${data.aws_iam_policy_document.sns_publish_server_notification.json}"
+  arn    = aws_sns_topic.server-notification.arn
+  policy = data.aws_iam_policy_document.sns_publish_server_notification.json
 }
 
 resource "aws_sns_topic_subscription" "server-notification" {
-  topic_arn = "${aws_sns_topic.server-notification.arn}"
+  topic_arn = aws_sns_topic.server-notification.arn
   protocol  = "lambda"
-  endpoint  = "${aws_lambda_function.heartbeat-handler.arn}"
+  endpoint  = aws_lambda_function.heartbeat-handler.arn
 }
